@@ -19,7 +19,7 @@ public class TOHCollisionFilter implements CollisionFilter {
 	@Override
 	public Response filter(Item item, Item other) {
 		if( item.userData instanceof Player && other.userData instanceof Enemy)
-			return Response.slide;
+			return Response.bounce;
 		else if ( item.userData instanceof Attack || other.userData instanceof Attack )
 			return Response.cross;
 		else

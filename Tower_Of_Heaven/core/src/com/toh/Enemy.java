@@ -29,39 +29,49 @@ public class Enemy extends Entity{
 	public Enemy(final TOHGame game, OrthographicCamera camera, Vector2 startPosition, int health) {
 		
 		super(game, camera, startPosition, health);
-		jbItem = game.jWorld.add(new Item<Entity>(), position.x, position.y, 32, 32);
+		jbItem = game.jbWorld.add(new Item<Entity>(), position.x, position.y, 32, 32);
 		jbItem.userData = this;
 		
 		commonColor = new Color(Color.PURPLE);
 		damageColor = new Color(Color.RED);
+		
 	}
 	
 	public Enemy(final TOHGame game, OrthographicCamera camera, Vector2 startPosition) {
 		
 		super(game, camera, startPosition);
 		
-		jbItem = game.jWorld.add(new Item<Entity>(), position.x, position.y, 32, 32);
+		jbItem = game.jbWorld.add(new Item<Entity>(), position.x, position.y, 32, 32);
 		jbItem.userData = this;
 		
 		commonColor = new Color(Color.PURPLE);
 		damageColor = new Color(Color.RED);
+		
 	}
 
 	public void render(){
 		//Dependiendo si la entidad esta siendo atacada o no, dibujar el rectángulo con sus colores
 		//interpolando entre el color normal y el color de daño
-		if( !beingAttacked ){
-			game.shapeDrawer.filledRectangle(drawRect, commonColor.lerp(Color.PURPLE, 0.3f));
-			game.shapeDrawer.rectangle(drawRect, Color.MAGENTA, 5f);
-		} else {
-			game.shapeDrawer.filledRectangle(drawRect, commonColor.lerp(damageColor, 0.3f));
+		
+		game.shapeDrawer.filledRectangle(drawRect, commonColor);
+		game.shapeDrawer.rectangle(drawRect, Color.MAGENTA, 5f);
+		
+		if (beingAttacked){
+			commonColor.lerp(damageColor, 0.3f);
 			game.shapeDrawer.rectangle(drawRect, new Color(Color.MAGENTA).lerp(new Color(0xb22222ff), 0.3f), 5f);
 		}
+		
+		if(game.player.isAttacking){
+			commonColor.lerp(Color.YELLOW, 0.1f);
+		} else {
+			commonColor.lerp(Color.PURPLE, 0.1f);
+		}
+		
 	}
 	
 	public void move(){
 		//Mover a la entidad en la simulacion
-		jbColResult = game.jWorld.move(jbItem, drawRect.x, drawRect.y, colFilter);
+		jbColResult = game.jbWorld.move(jbItem, drawRect.x, drawRect.y, colFilter);
 		jbCollisionArray = jbColResult.projectedCollisions;
 		
 		/*Segun el arreglo de colisiones obtenido, verificar si hay una colision
@@ -89,7 +99,7 @@ public class Enemy extends Entity{
 		//La entidad se muere
 		if( health < 1 ){
 			drawRect.set(0, 0, 0, 0);
-			game.jWorld.remove(jbItem);
+			game.jbWorld.remove(jbItem);
 			alive = false;
 		}
 	}

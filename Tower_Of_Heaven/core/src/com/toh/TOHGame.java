@@ -26,18 +26,19 @@ import com.toh.screens.DungeonScreen;
  */
 public class TOHGame extends Game {
 	
-	public World<Entity> jWorld;	//Mundo de simulación JBump que tiene Entidades como objetos de datos
+	public World<Entity> jbWorld;	//Mundo de simulación JBump que tiene Entidades como objetos de datos
 	public SpriteBatch spriteBatch; //Manejador de sprites por lotes
 	public PolygonSpriteBatch polyBatch; //Sprites por lotes optimizados para polígonos
 	public ShapeDrawer shapeDrawer;		 //Dibujador de polígonos básicos (extensión de libGDX)
 	public BitmapFont font;			//Manejador de fuentes tipo bitmap (sin buen escalado)
+	public Player player;
 	
 	//Necesario para ShapeDrawer
 	Texture whitePixel;
 	
 	public void create () {
 		
-		jWorld = new World<Entity>();
+		jbWorld = new World<Entity>();
 		spriteBatch =  new SpriteBatch();
 		polyBatch = new PolygonSpriteBatch();
 		
@@ -48,7 +49,7 @@ public class TOHGame extends Game {
 		font = new BitmapFont();
 		font.getData().setScale(2); 
 		//Cambiamos a la pantalla de Cutscenes
-		this.setScreen( new CutsceneScreen(this) );
+		this.setScreen( new DungeonScreen(this) );
 	}
 
 	public void render () {
