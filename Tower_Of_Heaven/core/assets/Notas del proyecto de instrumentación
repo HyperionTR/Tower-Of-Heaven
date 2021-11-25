@@ -1,0 +1,72 @@
+Notas del proyecto de instrumentación
+
+
+Antes de iniciar, hay que recordar en la presentación anterior, explicamos el panorama general del proyecto, así como las razones para medir la calidad del agua y los parametros a medir, los cuales son: PH, Potencial de Oxido reducción, flujo de agua, conductividad y temperatura.
+
+En esta segunda presentación, vamos a explicar los detalles técnicos de la instrumentación y diseño del sistema hasta llegar a obtener resultados simulados Proteus y compararlos con los calculados mediante las fórmulas que especifica el documento.
+
+Resumen del sistema
+El sistema de medición de la calidad el agua en tiempo real, está compuesto a su vez, de 2 módulos que conforman los 4 subsistemas del proyecto.
+
+El primer módulo está compuesto de los nodos de sensores y de medición.
+
+El segundo módulo está compuesto de los nodos inalámbrico y de notificación
+
+----next
+
+Para la obtención de resultados de nuestro proyecto, basado en el estudio realizado por Cloete y Nair, utilizamos únicamente los nodos de sensores. medición y de notificación, pues el nodo inalámbrico unicamente se encarga de transmitir los datos del nodo de medición al de notificación.
+
+Del nodo de sensores únicamente se conservó el acondicionamiento de las señales, pues la salida de voltaje de los sensores es simulada.
+
+Del nodo de medición y de notificación se utiliza el un micro controlador de la familia PIC para la conversión de señales analogicas a digitales, su interpretación y su visualización en una pantalla LCD.
+
+ PIC32MX220F032B 
+
+---next
+
+Diseño de los sensores
+
+Los sensores utilizados en el proyecto original fueron diseñados para otorgar una señal eléctrica como respuesta a cada uno de los parámetros a medir.
+Sin embargo, cada respuesta obtenida es enormemente diferente, y normalmente inutilizable para el resto de nodos del sistema. Es por ello que las señales de salida de los sensores son acondicionadas mediante un circuito específico para cada sensor, lo que permitirá que las señales sean utilizadas por el micro controlador de la familia PIC.
+
+A continuación se dará una breve explicación del diseño de los sensores a nivel físico y electrónico para poder obtener una señal cruda de voltaje.
+
+---next
+
+Sensor de flujo
+
+Mide el flujo del agua en litros por minuto.
+
+El sensor de flujo se compone de una pequeña tubería por la que dluye el agua y llega a una turbina que mediante una pequeña terminal magnética, permite determinar la valocidad a la que gira la turbina y, por ende, determinar la velocidad del flujo del agua según la cantidad de pulsos recibidos mediante la terminal magnética.
+
+---next
+
+Sensor de temperatura
+
+El sensor de temperatura es un temrmistor sencillo compuesto de una resistencia constante, una resistencia dependiente de temperatura y una fuente de voltaje.
+El voltaje a obtener es proporcional a la temperatura junto a un coeficiente de temperatura positivo o negativo. Sin emabrgo, esta relación entre voltaje y temperatura no es linear, pero puede se puede utilizar la ecuación de Steinhart–Hart para determinar dicha temperatura.
+
+---next
+
+Sensor de conductividad
+
+Mide la conductividad del agua en micro Siemens por centímetro.
+
+Este sensor utiliza un par de electrodos con una resistencia conocida a los que se le aplica un voltaje y corriente también conocidos. Mediante estos parámetros y la constante de celda, que es la longitud del área del agua a medir, se puede conocer la reistencia del agua usando la ley de Ohm.
+
+---next
+
+Sensor de PH
+
+El sensor de PH es un sensor de PH convencional que utiliza una membrana de vidrio dopada para actuar como una batería de célula única, ante la presencia de iones de hidrógeno. Es por ello que existe una correlación directa entre el voltaje de salida y el PH medido.
+
+---next
+
+Sensor del potencial de Óxido-Reducción
+
+Mide el ORP en milivolts
+
+El sensor se basa en un principio muy similar al del sensor de PH, por lo que aveces puede encontrarse como un dispositivo combinado para ambas mediciones. Sin embargo, para este proyecto simplemente se compró uno y luego se acondicionó su señal como los demás sensores.
+
+
+
