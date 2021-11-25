@@ -1,7 +1,6 @@
 package com.toh.screens;
 
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
@@ -96,7 +95,7 @@ public class DungeonScreen implements Screen{
 			player.render();
 			
 			for( Rectangle r: lg.walls ){
-				game.shapeDrawer.rectangle( r.x, r.y, lg.wallWidth, lg.wallHeight, new Color(1, 1, 1, 0.3f) );
+				game.shapeDrawer.rectangle( r.x, r.y, lg.wallWidth, lg.wallHeight );
 			}
 			for( Enemy e: lg.enemies ){
 				if( e.alive )

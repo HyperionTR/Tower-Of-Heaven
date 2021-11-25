@@ -3,6 +3,14 @@ package com.toh.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.toh.TOHGame;
@@ -19,6 +27,10 @@ public class MainMenuScreen implements Screen {
 	
 	BitmapFont font;
 	long elapsedTime;
+	TextButton boton1,boton2,boton3;
+	Skin piel;
+	Stage estado;
+
 	
 	public MainMenuScreen(final TOHGame game) {
 		// TODO Auto-generated constructor stub
@@ -36,20 +48,78 @@ public class MainMenuScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		// TODO Auto-generated method stub
-		
+		estado= new Stage();
+		Gdx.input.setInputProcessor(estado);
+		Table tabla= new Table();
+		tabla.setPosition(1024/3,450);
+		tabla.setFillParent(true);
+		tabla.setHeight(500);
+		estado.addActor(tabla);
 		ScreenUtils.clear(0, 0.2f, 0, 1);
 		
-		
+
 		game.spriteBatch.begin();
-		font.draw(game.spriteBatch, "Pantalla de Menu Principal", 600/2, 800/2);
+
+		font.draw(game.spriteBatch, "TOWER OF HEAVEN", 600/2, 700);
+
+		piel=new Skin(Gdx.files.internal("glassy-ui.json"));
+
+		boton1= new TextButton("Comenzar",piel,"small");
+		boton1.setPosition(100,150);
+		boton1.setHeight(40);
+		boton1.setWidth(150);
+		boton1.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				game.setScreen(new CharSelectScreen(game));
+				dispose();
+				return true;
+
+			}
+		});
+
+		tabla.addActor(boton1);
+
+		boton2= new TextButton("Puntaje",piel,"small");
+		boton2.setPosition(100,50);
+		boton2.setHeight(40);
+		boton2.setWidth(150);
+		boton2.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				game.setScreen(new ScoreScreen(game));
+				dispose();
+				return true;
+
+			}
+		});
+
+		tabla.addActor(boton2);
+
+
+
+
+
+		boton3= new TextButton("Salir del juego",piel,"small");
+		boton3.setPosition(100,-50);
+		boton3.setHeight(40);
+		boton3.setWidth(150);
+        boton3.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				System.exit(0);
+				return true;
+			}
+		});
+
+		tabla.addActor(boton3);
+
+		estado.draw();
 		game.spriteBatch.end();
 		
 		//Si ha pasado 1 segundo desde la creación de la pantalla y se toca la pantalla
 		//se cambia a la siguiente pantalla
-		if( Gdx.input.isTouched() && TimeUtils.millis() - elapsedTime > 1e3){
-			game.setScreen(new CharSelectScreen(game));
-			dispose();
-		}
+
 
 	}
 
